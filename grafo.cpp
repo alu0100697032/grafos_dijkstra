@@ -225,9 +225,22 @@ void GRAFO::Dijkstra(){
 	cout << "Nodo de partida? [1-"<< numero_nodos << "]: ";
 	cin >> (unsigned &) s;
 	//La etiqueta distancia del nodo origen es 0, y es su propio pred
-	d[--s]=0; pred[s]=s;
+	d[--s]=0;
+	pred[s]=s;
+	min = maxint;
 	do{
-
+		min = maxint;
+		for(unsigned i = 0; i < numero_nodos; i++){
+			if(PermanentementeEtiquetado[i] == false && d[i] < min){
+				PermanentementeEtiquetado[i] == true;
+				min = d[i];
+				for(unsigned j = 0; j < LSucesores[i].size(); j++){
+					if(d[j] > LSucesores[i][j].coste)
+						d[j] = LSucesores[i][j].coste;
+				}
+			}
+		}
+		cout << "en While" << endl;
 	}while (min < maxint);
 	cout << "Soluciones:" << endl;
 	//En esta parte del código, mostramos los caminos mínimos, si los hay

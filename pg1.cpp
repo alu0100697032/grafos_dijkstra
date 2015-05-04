@@ -23,6 +23,7 @@ int main() {
 			cout << "| [i] Mostrar la informacion basica del grafo: |" << endl;
 			cout << "| [s] Mostrar la lista de sucesores            |" << endl;
 			cout << "| [p] Mostrar la lista de predecesores         |" << endl;
+			cout << "| [d] Caminos minimos: Dijkstra                |" << endl;
 			cout << "| [q] Salir del programa                       |" << endl;
 			cout << "------------------------------------------------" << endl;
 			cout << endl;
@@ -45,6 +46,10 @@ int main() {
 				break;
 			case 'p': {
 				grafo.Mostrar_Lista_Predecesores();
+			}
+				break;
+			case 'd': {
+				grafo.Dijkstra();
 			}
 				break;
 			case 'q': {
