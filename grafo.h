@@ -45,13 +45,15 @@ public:
 	void actualizar(char nombrefichero[]);
 	unsigned Es_dirigido(); //devuelve 0 si el grafo es no dirigido y 1 si es dirigido
 	void Info_Grafo();
-	//void Mostrar_Listas(int l);
 	void Mostrar_Lista_Sucesores();
 	void Mostrar_Lista_Predecesores();
 	void ListaPredecesores();
 	void dfs(unsigned i, vector<bool> &visitado);
 	void ComponentesConexas();
 
+	void Dijkstra();
+	void BellmanEndFord();
+	void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred);
 };
 
 #endif

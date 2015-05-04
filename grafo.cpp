@@ -196,12 +196,40 @@ void GRAFO::ComponentesConexas() {
 	}
 }
 
-/*void GRAFO::Mostrar_Listas(int l) {
- if (l == 0) {
- Mostrar_Lista_Sucesores();
- } else {
- Mostrar_Lista_Sucesores();
- Mostrar_Lista_Predecesores();
- }
- }*/
+/*
+ * PRACTICA 3
+ */
 
+void GRAFO::MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred){
+	if (i != s){
+		MostrarCamino(s,pred[i],pred);
+		cout << pred[i]+1 << " -> ";
+	}
+}
+
+void GRAFO::Dijkstra(){
+	vector<bool> PermanentementeEtiquetado;
+	vector<int> d;
+	vector<unsigned> pred;
+	int min;
+	unsigned s, candidato;
+	//Inicialmente no hay ningun nodo permanentemente etiquetado
+	PermanentementeEtiquetado.resize(numero_nodos,false);
+	//Inicialmente todas las etiquetas distancias son infinito
+	d.resize(numero_nodos,maxint);
+	//Inicialmente el pred es null
+	pred.resize(numero_nodos,UERROR);
+	//Solicitamos al usuario nodo origen
+	cout << endl;
+	cout << "Caminos minimos: Dijkstra" << endl;
+	cout << "Nodo de partida? [1-"<< numero_nodos << "]: ";
+	cin >> (unsigned &) s;
+	//La etiqueta distancia del nodo origen es 0, y es su propio pred
+	d[--s]=0; pred[s]=s;
+	do{
+
+	}while (min < maxint);
+	cout << "Soluciones:" << endl;
+	//En esta parte del código, mostramos los caminos mínimos, si los hay
+	//MostrarCamino();
+}
