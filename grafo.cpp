@@ -144,7 +144,8 @@ void GRAFO::Mostrar_Lista_Sucesores() {
 			cout << " | Null" << endl;
 		else {
 			for (j = 0; j < LSucesores[i].size(); j++) {
-				cout << " | " << LSucesores[i][j].nodo + 1;
+				cout << " | " << LSucesores[i][j].nodo + 1
+						<< "(" << LSucesores[i][j].coste << ")";
 			}
 			cout << endl;
 		}
@@ -227,22 +228,95 @@ void GRAFO::Dijkstra(){
 	//La etiqueta distancia del nodo origen es 0, y es su propio pred
 	d[--s]=0;
 	pred[s]=s;
-	min = maxint;
 	do{
 		min = maxint;
 		for(unsigned i = 0; i < numero_nodos; i++){
 			if(PermanentementeEtiquetado[i] == false && d[i] < min){
-				PermanentementeEtiquetado[i] == true;
 				min = d[i];
-				for(unsigned j = 0; j < LSucesores[i].size(); j++){
-					if(d[j] > LSucesores[i][j].coste)
-						d[j] = LSucesores[i][j].coste;
+				candidato = i;
+			}
+		}
+		PermanentementeEtiquetado[candidato] = true;
+		for(unsigned j = 0; j < LSucesores[candidato].size(); j++){
+			if(d[LSucesores[candidato][j].nodo] > LSucesores[candidato][j].coste + d[candidato]){
+				pred[LSucesores[candidato][j].nodo] = candidato;
+				d[LSucesores[candidato][j].nodo] = LSucesores[candidato][j].coste + d[candidato];
+			}
+		}
+	}while (min < maxint);
+
+	cout << "Predecesor: ";
+	for(int i = 0; i < numero_nodos; i++)
+		cout << pred[i] << " ";
+	cout << endl;
+	cout << "Distancia: ";
+	for(int i = 0; i < numero_nodos; i++)
+		cout << d[i] << " ";
+	cout << endl;
+	PermanentementeEtiquetado[0] = true;
+	cout << "Etiquetado?: ";
+	for(int i = 0; i < numero_nodos; i++)
+		cout << PermanentementeEtiquetado[i] << " ";
+	cout << endl;
+	cout << endl;
+
+	cout << "Soluciones:" << endl;
+	//En esta parte del cï¿½digo, mostramos los caminos mï¿½nimos, si los hay
+	unsigned i;
+	cout << "Introduzca un nodo para motrar el camino minimo a Ã©l >> " << endl;
+	cin >> i;
+	i--;
+	MostrarCamino(s, i, pred);
+}
+
+void GRAFO::BellmanEndMoore(){
+	vector<int> d;
+	vector<unsigned> pred;
+	unsigned s, numeromejoras = 0;
+	bool mejora;
+	//Idem que en el algoritmo de Dijkstra
+	d.resize(numero_nodos,maxint);
+	pred.resize(numero_nodos,UERROR);
+	cout << endl;
+	cout << "Caminos minimos: Bellman â€“ End - Moore" << endl;
+	cout << "Nodo de partida? [1-"<< numero_nodos << "]: ";
+	cin >> (unsigned &) s;
+	d[--s]=0; pred[s]=s;
+
+	do{
+		numeromejoras = 0;
+		mejora = false;
+		for(int i = 0; i < LSucesores.size(); i++){
+			for(int j = 0; j < LSucesores[i].size(); j++){
+				if(d[j] > d[i] + LSucesores[i][j].coste){
+					d[j] = d[i] + LSucesores[i][j].coste;
+					pred[j] = LSucesores[i][j].nodo;
+					numeromejoras++;
+					mejora = true;
 				}
 			}
 		}
-		cout << "en While" << endl;
-	}while (min < maxint);
-	cout << "Soluciones:" << endl;
-	//En esta parte del código, mostramos los caminos mínimos, si los hay
-	//MostrarCamino();
+	}while ((numeromejoras < numero_nodos) && (mejora == true));
+
+	cout << "Predecesor: ";
+		for(int i = 0; i < numero_nodos; i++)
+			cout << pred[i] << " ";
+		cout << endl;
+		cout << "Distancia: ";
+		for(int i = 0; i < numero_nodos; i++)
+			cout << d[i] << " ";
+		cout << endl;
+		cout << endl;
+
+	if(numeromejoras == numero_nodos-1){
+		cout << "Ciclo de coste negativo" << endl;
+	}else{
+		cout << "Soluciones:" << endl;
+		//En esta parte del cï¿½digo, mostramos los caminos mï¿½nimos, si los hay
+		unsigned i;
+		cout << "Introduzca un nodo para motrar el camino minimo a Ã©l >> " << endl;
+		cin >> i;
+		i--;
+		MostrarCamino(s, i, pred);
+	}
 }

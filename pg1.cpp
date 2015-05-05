@@ -8,9 +8,9 @@
 #include "grafo.h"
 
 int main() {
-	char fichero[40];
-	cout << "Introduzca el nombre del fichero a procesar >> " << endl;
-	cin >> fichero;
+	char fichero[40] = "grafo2.gr";
+	//cout << "Introduzca el nombre del fichero a procesar >> " << endl;
+	//cin >> fichero;
 	GRAFO grafo(fichero);
 	char opcion;
 	bool parar = false;
@@ -24,6 +24,7 @@ int main() {
 			cout << "| [s] Mostrar la lista de sucesores            |" << endl;
 			cout << "| [p] Mostrar la lista de predecesores         |" << endl;
 			cout << "| [d] Caminos minimos: Dijkstra                |" << endl;
+			cout << "| [b] Caminos minimos: Bellman                 |" << endl;
 			cout << "| [q] Salir del programa                       |" << endl;
 			cout << "------------------------------------------------" << endl;
 			cout << endl;
@@ -50,6 +51,10 @@ int main() {
 				break;
 			case 'd': {
 				grafo.Dijkstra();
+			}
+				break;
+			case 'b': {
+				grafo.BellmanEndMoore();
 			}
 				break;
 			case 'q': {

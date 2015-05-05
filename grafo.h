@@ -52,7 +52,7 @@ public:
 	void ComponentesConexas();
 
 	void Dijkstra();
-	void BellmanEndFord();
+	void BellmanEndMoore();
 	void MostrarCamino(unsigned s, unsigned i, vector<unsigned> pred);
 };
 
