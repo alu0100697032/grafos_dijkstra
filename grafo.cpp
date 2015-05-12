@@ -245,28 +245,14 @@ void GRAFO::Dijkstra(){
 		}
 	}while (min < maxint);
 
-	cout << "Predecesor: ";
-	for(int i = 0; i < numero_nodos; i++)
-		cout << pred[i] << " ";
-	cout << endl;
-	cout << "Distancia: ";
-	for(int i = 0; i < numero_nodos; i++)
-		cout << d[i] << " ";
-	cout << endl;
-	PermanentementeEtiquetado[0] = true;
-	cout << "Etiquetado?: ";
-	for(int i = 0; i < numero_nodos; i++)
-		cout << PermanentementeEtiquetado[i] << " ";
-	cout << endl;
-	cout << endl;
-
 	cout << "Soluciones:" << endl;
 	//En esta parte del c�digo, mostramos los caminos m�nimos, si los hay
-	unsigned i;
-	cout << "Introduzca un nodo para motrar el camino minimo a él >> " << endl;
-	cin >> i;
-	i--;
-	MostrarCamino(s, i, pred);
+	for(unsigned i = 0; i < numero_nodos; i++){
+		if(i != s && d[i] < maxint){
+			MostrarCamino(s, i, pred);
+			cout << i+1 << "(" << d[i] << ")" << endl;
+		}
+	}
 }
 
 void GRAFO::BellmanEndMoore(){
@@ -282,41 +268,32 @@ void GRAFO::BellmanEndMoore(){
 	cout << "Nodo de partida? [1-"<< numero_nodos << "]: ";
 	cin >> (unsigned &) s;
 	d[--s]=0; pred[s]=s;
-
+	numeromejoras = 0;
 	do{
-		numeromejoras = 0;
 		mejora = false;
-		for(int i = 0; i < LSucesores.size(); i++){
-			for(int j = 0; j < LSucesores[i].size(); j++){
-				if(d[j] > d[i] + LSucesores[i][j].coste){
-					d[j] = d[i] + LSucesores[i][j].coste;
-					pred[j] = LSucesores[i][j].nodo;
-					numeromejoras++;
+		for(unsigned i = 0; i < LSucesores.size(); i++){
+			for(unsigned j = 0; j < LSucesores[i].size(); j++){
+				if(d[LSucesores[i][j].nodo] > d[i] + LSucesores[i][j].coste){
+					d[LSucesores[i][j].nodo] = d[i] + LSucesores[i][j].coste;
+					pred[LSucesores[i][j].nodo] = i;
 					mejora = true;
 				}
 			}
 		}
+		if(mejora == true)
+			numeromejoras++;
 	}while ((numeromejoras < numero_nodos) && (mejora == true));
-
-	cout << "Predecesor: ";
-		for(int i = 0; i < numero_nodos; i++)
-			cout << pred[i] << " ";
-		cout << endl;
-		cout << "Distancia: ";
-		for(int i = 0; i < numero_nodos; i++)
-			cout << d[i] << " ";
-		cout << endl;
-		cout << endl;
 
 	if(numeromejoras == numero_nodos-1){
 		cout << "Ciclo de coste negativo" << endl;
 	}else{
 		cout << "Soluciones:" << endl;
 		//En esta parte del c�digo, mostramos los caminos m�nimos, si los hay
-		unsigned i;
-		cout << "Introduzca un nodo para motrar el camino minimo a él >> " << endl;
-		cin >> i;
-		i--;
-		MostrarCamino(s, i, pred);
+		for(unsigned i = 0; i < numero_nodos; i++){
+			if(i != s && d[i] < maxint){
+				MostrarCamino(s, i, pred);
+				cout << i+1 << "(" << d[i] << ")" << endl;
+			}
+		}
 	}
 }
